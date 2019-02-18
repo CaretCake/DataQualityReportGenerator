@@ -9,9 +9,9 @@ public class DataQualityReportGenerator {
 
 		DataHolder dataHolder = new DataHolder();
 
+		//TODO: un-hardcode the filename
 		readInArffFile("lakes.arff", dataHolder);
-
-		//System.out.println(dataHolder.attributes.get(0));
+		dataHolder.generateDataQualityReport("lakesDQR.csv");
 
 	}
 
@@ -24,9 +24,11 @@ public class DataQualityReportGenerator {
 			if (line.length() > 0 && line.charAt(0) != '%' && !line.contains("@data") && !line.contains("@relation")) {
 				if (line.contains("@attribute")) {
 					String[] lineSplitOnSpace = line.split(" ");
+					//TODO: make method for adding attribute
 					dataHolder.attributes.add(lineSplitOnSpace[1] + "," + lineSplitOnSpace[2]);
 				}
 				else {
+					//TODO: make method for adding data instance
 					dataHolder.dataInstances.add(line);
 				}
 			}
