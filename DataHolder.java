@@ -9,7 +9,10 @@ public class DataHolder {
 
 	public void generateDataQualityReport(String outputFilename)  throws Exception {
 		PrintWriter out = new PrintWriter(outputFilename);
-		out.println("Instances\n" + this.dataInstances.size());
+		printTotalInstances(this.dataInstances.size(), out);
+
+
+
 		out.close();
 	}
 
