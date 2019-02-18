@@ -3,12 +3,26 @@ import java.util.ArrayList;
 import java.io.*;
 
 public class DataHolder {
-	ArrayList<String> attributes = new ArrayList<String>();
-	ArrayList<String> dataInstances = new ArrayList<String>();
+	private ArrayList<String> features = new ArrayList<String>();
+	private ArrayList<String> categoricalFeatureOptions = new ArrayList<String>();
+	private ArrayList<String> dataInstances = new ArrayList<String>();
 
 	public void generateDataQualityReport(String outputFilename)  throws Exception {
 		PrintWriter out = new PrintWriter(outputFilename);
 		out.println("Instances\n" + this.dataInstances.size());
 		out.close();
+	}
+
+	public void addNumericFeature(String feature) {
+		this.features.add(feature);
+	}
+
+	public void addCategoricalFeature(String feature, String featureOptions) {
+		this.features.add(feature);
+		this.categoricalFeatureOptions.add(featureOptions);
+	}
+
+	public void addDataInstance(String dataInstance) {
+		this.dataInstances.add(dataInstance);
 	}
 }

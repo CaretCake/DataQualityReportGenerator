@@ -24,12 +24,17 @@ public class DataQualityReportGenerator {
 			if (line.length() > 0 && line.charAt(0) != '%' && !line.contains("@data") && !line.contains("@relation")) {
 				if (line.contains("@attribute")) {
 					String[] lineSplitOnSpace = line.split(" ");
-					//TODO: make method for adding attribute
-					dataHolder.attributes.add(lineSplitOnSpace[1] + "," + lineSplitOnSpace[2]);
+					switch (lineSplitOnSpace[2]) {
+						case "numeric":
+							dataHolder.addNumericFeature(lineSplitOnSpace[1]);
+							break;
+						default:
+							dataHolder.addCategoricalFeature(lineSplitOnSpace[1], lineSplitOnSpace[2]);
+							break;
+					}
 				}
 				else {
-					//TODO: make method for adding data instance
-					dataHolder.dataInstances.add(line);
+					dataHolder.addDataInstance(line);
 				}
 			}
 		}
