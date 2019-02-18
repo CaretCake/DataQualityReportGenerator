@@ -1,4 +1,5 @@
 // Melissa Farrell
+// Run with command: java DataQualityReportGenerator "lakes.arff"
 
 import java.io.*;
 
@@ -8,12 +9,11 @@ public class DataQualityReportGenerator {
 		DataProcessor dataProcessor = new DataProcessor();
 		DataPrinter dataPrinter = new DataPrinter();
 
-		//TODO: un-hardcode the filename
-		dataProcessor.setInputFilename("lakes.arff");
+		dataProcessor.setInputFilename(args[0]);
 		dataProcessor.setDataPrinter(dataPrinter);
 		dataProcessor.parseDataFromArffFile();
 		dataProcessor.generateDataQualityReport();
-		dataPrinter.printDataQualityReport("lakesDQR.csv");
+		dataPrinter.printDataQualityReport(args[0].substring(0, args[0].indexOf('.')) + "DQR.csv");
 
 	}
 }
