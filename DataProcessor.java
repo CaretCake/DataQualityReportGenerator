@@ -2,7 +2,7 @@
 import java.util.ArrayList;
 import java.io.*;
 
-public class DataHolder {
+public class DataProcessor {
 	private ArrayList<String> features = new ArrayList<String>();
 	private ArrayList<String> categoricalFeatureOptions = new ArrayList<String>();
 	private ArrayList<String> dataInstances = new ArrayList<String>();
