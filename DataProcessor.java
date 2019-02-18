@@ -89,17 +89,13 @@ public class DataProcessor {
 		PrintWriter out = new PrintWriter(outputFilename);
 		DataPrinter dataPrinter = new DataPrinter();
 		dataPrinter.setPrintWriter(out);
-		dataPrinter.printTotalInstances(this.dataInstances.size());
 
 		processData();
 
 		// Process data here, which will store everything in arraylists in dataprinter
 		// then call print methods for all that will print headers, data, etc for each?
 
-		dataPrinter.printNumericHeader();
-		//TODO: process and print data for numerical features
-		dataPrinter.printCategoricalHeader();
-		//TODO: process and print data for categorical features
+		dataPrinter.printReport(this.dataInstances.size());
 		out.close();
 	}
 

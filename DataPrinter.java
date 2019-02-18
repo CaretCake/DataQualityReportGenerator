@@ -21,4 +21,13 @@ public class DataPrinter {
 		out.println(CATEGORICAL_HEADER);
 	}
 
+	public void printReport(int numberOfInstances) {
+		this.printTotalInstances(numberOfInstances);
+
+		this.printNumericHeader();
+		// print numeric data for each numeric feature
+		this.printCategoricalHeader();
+		// print categorical data for each categorical feature
+	}
+
 }
