@@ -109,16 +109,9 @@ public class DataProcessor {
 		String featureData = featureName+",";
 		//TODO: Percent missing
 		featureData += "?,";
-		//TODO: Cardinality
 		featureData += getCardinalityOfFeatureAtIndex(featureIndex) + ",";
-		//TODO: Minimum
-		featureData += getQuartilesAndMeanOfFeatureAtIndex(featureIndex) + ",";
-		//TODO: 1st Quartile
-		//TODO: Mean
-		//TODO: Median
-		//TODO: 3rd Quartile
-		//TODO: Maximium
-		//TODO: Standard Deviation
+		featureData += getQuartilesOfFeatureAtIndex(featureIndex) + ",";
+		featureData += getMeanAndStandardDeviationOfFeatureAtIndex(featureIndex);
 
 		return featureData;
 	}
@@ -148,12 +141,10 @@ public class DataProcessor {
 		return cardinalityMap.size();
 	}
 
-	private String getQuartilesAndMeanOfFeatureAtIndex(int featureIndex) {
+	private String getQuartilesOfFeatureAtIndex(int featureIndex) {
 		double[] dataPoints = new double[this.dataInstances.size()];
-		double mean = 0;
 		for (int i = 0; i < dataInstances.size(); i++) {
 			dataPoints[i] = (dataInstances.get(i).get(featureIndex));
-			mean += dataInstances.get(i).get(featureIndex);
 		}
 		Arrays.sort(dataPoints);
 		double minimum = dataPoints[0];
@@ -162,8 +153,23 @@ public class DataProcessor {
 		double median = dataPoints[(int) Math.round(dataPoints.length * 50 / 100)];
 		double thirdQuartile = dataPoints[(int) Math.round(dataPoints.length * 75 / 100)];
 
+		return minimum + "," + firstQuartile + "," + median + "," + thirdQuartile + "," + maximum;
+	}
+
+	private String getMeanAndStandardDeviationOfFeatureAtIndex(int featureIndex) {
+		double mean = 0;
+		double standardDeviation = 0;
+		for (int i = 0; i < dataInstances.size(); i++) {
+			mean += dataInstances.get(i).get(featureIndex);
+		}
 		mean /= this.dataInstances.size();
 
-		return minimum + "," + firstQuartile + "," + mean + "," + median + "," + thirdQuartile + "," + maximum;
+		for (int i = 0; i < dataInstances.size(); i++) {
+			standardDeviation += Math.pow(dataInstances.get(i).get(featureIndex) - mean, 2);
+		}
+
+		standardDeviation = Math.sqrt(standardDeviation/dataInstances.size());
+
+		return mean + "," + standardDeviation;
 	}
 }
