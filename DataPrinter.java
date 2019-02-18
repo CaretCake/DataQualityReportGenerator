@@ -1,33 +1,62 @@
 import java.io.*;
+import java.util.ArrayList;
 
 public class DataPrinter {
 	private String NUMERIC_HEADER = "Numeric feature,Percent missing,Cardinality,Minimum,1st Quartile,Mean,Median,3rd Quartile,Maximium,Standard Deviation";
 	private String CATEGORICAL_HEADER = "Categorical feature,Percent missing,Cardinality,Mode,Mode frequency,Mode percent,Second mode,Second mode frequency,Second mode percent";
+	private ArrayList<String> numericFeatureData = new ArrayList<String>();
+	private ArrayList<String> categoricalFeatureData = new ArrayList<String>();
 	private PrintWriter out;
 
-	public void setPrintWriter(PrintWriter printWriter) {
-		out = printWriter;
+	public void addNumericFeatureData(String commaSeparatedData) {
+		this.numericFeatureData.add(commaSeparatedData);
 	}
 
-	public void printTotalInstances (int numberOfInstances) {
+	public void addCategoricalFeatureData(String commaSeparatedData) {
+		this.categoricalFeatureData.add(commaSeparatedData);
+	}
+
+	private void printTotalInstances (int numberOfInstances) {
 		out.println("Instances\n" + numberOfInstances + "\n");
 	}
 
-	public void printNumericHeader() {
+	private void printNumericHeader() {
 		out.println(NUMERIC_HEADER);
 	}
 
-	public void printCategoricalHeader() {
+	private void printCategoricalHeader() {
 		out.println(CATEGORICAL_HEADER);
 	}
 
-	public void printReport(int numberOfInstances) {
-		this.printTotalInstances(numberOfInstances);
+	private void printNumericFeatureData() {
+		for (String dataInstance : numericFeatureData) {
+			out.println(dataInstance);
+		}
+	}
+
+	private void printCategoricalFeatureData() {
+		for (String dataInstance : categoricalFeatureData) {
+			out.println(dataInstance);
+		}
+	}
+
+	private void printBlankLine() {
+		out.println();
+	}
+
+	public void printDataQualityReport(String outputFilename) throws Exception {
+		out = new PrintWriter(outputFilename);
+		DataPrinter dataPrinter = new DataPrinter();
+
+		//this.printTotalInstances(numberOfInstances);
 
 		this.printNumericHeader();
-		// print numeric data for each numeric feature
+		this.printNumericFeatureData();
+		this.printBlankLine();
 		this.printCategoricalHeader();
-		// print categorical data for each categorical feature
+		this.printCategoricalFeatureData();
+
+		out.close();
 	}
 
 }
