@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -20,6 +19,18 @@ public class DataProcessor {
 		this.categoricalFeatureOptions.put(feature, featureOptions);
 	}
 
+	private int getIndexOfValueForCategoricalFeature(String categoricalFeatureName, String value) {
+		return categoricalFeatureOptions.get(categoricalFeatureName).indexOf(value);
+	}
+
+	private String getNameFromIndexForCategoricalFeature(String categoricalFeatureName, int indexValue) {
+		return categoricalFeatureOptions.get(categoricalFeatureName).get(indexValue);
+	}
+
+	private String getCategoricalFeatureName(int categoricalFeatureIndex) {
+		return this.features.get(categoricalFeatureIndex);
+	}
+
 	public void addDataInstance(String dataInstance) {
 		String[] data = dataInstance.split(",");
 		ArrayList<Double> processedDataInstance = new ArrayList<Double>();
@@ -27,7 +38,7 @@ public class DataProcessor {
 		for (int i = 0; i < data.length; i++) {
 			String currentFeature = this.features.get(i);
 			if (this.categoricalFeatureOptions.get(currentFeature) != null) { // is categorical feature
-				processedValue = categoricalFeatureOptions.get(currentFeature).indexOf(data[i]);
+				processedValue = getIndexOfValueForCategoricalFeature(getCategoricalFeatureName(i), data[i]);
 				processedDataInstance.add(processedValue);
 			}
 			else {
@@ -36,8 +47,8 @@ public class DataProcessor {
 			}
 		}
 		this.dataInstances.add(processedDataInstance);
-		System.out.println(this.dataInstances);
-		System.out.println(this.categoricalFeatureOptions);
+		/*System.out.println(this.dataInstances);
+		System.out.println(this.categoricalFeatureOptions);*/
 	}
 
 	public void generateDataQualityReport(String outputFilename)  throws Exception {
