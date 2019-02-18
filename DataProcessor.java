@@ -27,8 +27,8 @@ public class DataProcessor {
 		return categoricalFeatureOptions.get(categoricalFeatureName).get(indexValue);
 	}
 
-	private String getCategoricalFeatureName(int categoricalFeatureIndex) {
-		return this.features.get(categoricalFeatureIndex);
+	private String getFeatureName(int featureIndex) {
+		return this.features.get(featureIndex);
 	}
 
 	public void addDataInstance(String dataInstance) {
@@ -38,7 +38,7 @@ public class DataProcessor {
 		for (int i = 0; i < data.length; i++) {
 			String currentFeature = this.features.get(i);
 			if (this.categoricalFeatureOptions.get(currentFeature) != null) { // is categorical feature
-				processedValue = getIndexOfValueForCategoricalFeature(getCategoricalFeatureName(i), data[i]);
+				processedValue = getIndexOfValueForCategoricalFeature(getFeatureName(i), data[i]);
 				processedDataInstance.add(processedValue);
 			}
 			else {
