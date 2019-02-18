@@ -108,6 +108,7 @@ public class DataProcessor {
 		String featureName = getFeatureName(featureIndex);
 		String featureData = featureName+",";
 		//TODO: Percent missing
+		featureData += "?,";
 		//TODO: Cardinality
 		featureData += getCardinalityOfFeatureAtIndex(featureIndex) + ",";
 		//TODO: Minimum
@@ -126,6 +127,7 @@ public class DataProcessor {
 		String featureName = getFeatureName(featureIndex);
 		String featureData = featureName+",";
 		//TODO: Percent missing
+		featureData += "?,";
 		//TODO: Cardinality
 		featureData += getCardinalityOfFeatureAtIndex(featureIndex);
 		//TODO: Mode
@@ -146,5 +148,22 @@ public class DataProcessor {
 		return cardinalityMap.size();
 	}
 
+	private String getQuartilesAndMeanOfFeatureAtIndex(int featureIndex) {
+		double[] dataPoints = new double[this.dataInstances.size()];
+		double mean = 0;
+		for (int i = 0; i < dataInstances.size(); i++) {
+			dataPoints[i] = (dataInstances.get(i).get(featureIndex));
+			mean += dataInstances.get(i).get(featureIndex);
+		}
+		Arrays.sort(dataPoints);
+		double minimum = dataPoints[0];
+		double maximum = dataPoints[this.dataInstances.size() - 1];
+		double firstQuartile = dataPoints[(int) Math.round(dataPoints.length * 25 / 100)];
+		double median = dataPoints[(int) Math.round(dataPoints.length * 50 / 100)];
+		double thirdQuartile = dataPoints[(int) Math.round(dataPoints.length * 75 / 100)];
 
+		mean /= this.dataInstances.size();
+
+		return minimum + "," + firstQuartile + "," + mean + "," + median + "," + thirdQuartile + "," + maximum;
+	}
 }
