@@ -6,7 +6,7 @@ import java.io.*;
 
 public class DataProcessor {
 	private ArrayList<String> features = new ArrayList<String>();
-	private ArrayList<Double> dataInstances = new ArrayList<Double>();
+	private ArrayList<ArrayList<Double>> dataInstances = new ArrayList<ArrayList<Double>>();
 	private HashMap<String, ArrayList<String>> categoricalFeatureOptions = new HashMap<String, ArrayList<String>>();
 
 	public void addNumericFeature(String feature) {
@@ -21,9 +21,23 @@ public class DataProcessor {
 	}
 
 	public void addDataInstance(String dataInstance) {
-		//ArrayList<String> data = (ArrayList<String>)Arrays.asList(dataInstance.split(","));
-
-		//this.dataInstances.add();
+		String[] data = dataInstance.split(",");
+		ArrayList<Double> processedDataInstance = new ArrayList<Double>();
+		double processedValue = 0;
+		for (int i = 0; i < data.length; i++) {
+			String currentFeature = this.features.get(i);
+			if (this.categoricalFeatureOptions.get(currentFeature) != null) { // is categorical feature
+				processedValue = categoricalFeatureOptions.get(currentFeature).indexOf(data[i]);
+				processedDataInstance.add(processedValue);
+			}
+			else {
+				processedValue = Double.parseDouble(data[i]);
+				processedDataInstance.add(processedValue);
+			}
+		}
+		this.dataInstances.add(processedDataInstance);
+		System.out.println(this.dataInstances);
+		System.out.println(this.categoricalFeatureOptions);
 	}
 
 	public void generateDataQualityReport(String outputFilename)  throws Exception {
