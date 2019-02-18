@@ -6,17 +6,22 @@ import java.io.*;
 
 public class DataProcessor {
 	private String inputFilename;
+	private DataPrinter dataPrinter;
 	private ArrayList<String> features = new ArrayList<String>();
 	private ArrayList<ArrayList<Double>> dataInstances = new ArrayList<ArrayList<Double>>();
 	private HashMap<String, ArrayList<String>> categoricalFeatureOptions = new HashMap<String, ArrayList<String>>();
 
 	public void setInputFilename(String filename) {
-		inputFilename = filename;
+		this.inputFilename = filename;
+	}
+
+	public void setDataPrinter(DataPrinter dataPrinter) {
+		this.dataPrinter = dataPrinter;
 	}
 
 	private int getIndexOfValueForCategoricalFeature(String categoricalFeatureName, String value) {
-			return categoricalFeatureOptions.get(categoricalFeatureName).indexOf(value);
-		}
+		return categoricalFeatureOptions.get(categoricalFeatureName).indexOf(value);
+	}
 
 	private String getNameFromIndexForCategoricalFeature(String categoricalFeatureName, int indexValue) {
 		return categoricalFeatureOptions.get(categoricalFeatureName).get(indexValue);
@@ -85,44 +90,61 @@ public class DataProcessor {
 		}
 	}
 
-	public void generateDataQualityReport(String outputFilename)  throws Exception {
-		PrintWriter out = new PrintWriter(outputFilename);
-		DataPrinter dataPrinter = new DataPrinter();
-		dataPrinter.setPrintWriter(out);
-
-		processData();
-
+	public void generateDataQualityReport() {
+		for (int i = 0; i < this.features.size(); i++) {
+			if (getFeatureType(i) == "numeric") {
+				dataPrinter.addNumericFeatureData(processNumericFeatureData(i));
+			}
+			else if (getFeatureType(i) == "categorical") {
+				dataPrinter.addCategoricalFeatureData(processCategoricalFeatureData(i));
+			}
+		}
 		// Process data here, which will store everything in arraylists in dataprinter
 		// then call print methods for all that will print headers, data, etc for each?
 
-		dataPrinter.printReport(this.dataInstances.size());
-		out.close();
 	}
 
-	public void processData() {
-		//Iterate through features, determine if feature at index is numeric/categorical
-		//and if it's numeric, calculate following for feature:
-			//TODO: Numeric feature
-			//TODO: Percent missing
-			//TODO: Cardinality
-			//TODO: Minimum
-			//TODO: 1st Quartile
-			//TODO: Mean
-			//TODO: Median
-			//TODO: 3rd Quartile
-			//TODO: Maximium
-			//TODO: Standard Deviation
-			//Store entry for future printing in DataPrinter
-		//else if it's categorical calculate following:
-			//TODO: Categorical feature
-			//TODO: Percent missing
-			//TODO: Cardinality
-			//TODO: Mode
-			//TODO: Mode frequency
-			//TODO: Mode percent
-			//TODO: Second mode
-			//TODO: Second mode frequency
-			//TODO: Second mode percent
-			//Store entry for future printing in DataPrinter
+	private String processNumericFeatureData(int featureIndex) {
+		String featureName = getFeatureName(featureIndex);
+		String featureData = featureName+",";
+		//TODO: Percent missing
+		//TODO: Cardinality
+		featureData += getCardinalityOfFeatureAtIndex(featureIndex) + ",";
+		//TODO: Minimum
+		featureData += getQuartilesAndMeanOfFeatureAtIndex(featureIndex) + ",";
+		//TODO: 1st Quartile
+		//TODO: Mean
+		//TODO: Median
+		//TODO: 3rd Quartile
+		//TODO: Maximium
+		//TODO: Standard Deviation
+
+		return featureData;
 	}
+
+	private String processCategoricalFeatureData(int featureIndex) {
+		String featureName = getFeatureName(featureIndex);
+		String featureData = featureName+",";
+		//TODO: Percent missing
+		//TODO: Cardinality
+		featureData += getCardinalityOfFeatureAtIndex(featureIndex);
+		//TODO: Mode
+		//TODO: Mode frequency
+		//TODO: Mode percent
+		//TODO: Second mode
+		//TODO: Second mode frequency
+		//TODO: Second mode percent
+
+		return featureData;
+	}
+
+	private int getCardinalityOfFeatureAtIndex(int featureIndex) {
+		HashMap<Double, String> cardinalityMap =  new HashMap<Double, String>();
+		for (ArrayList<Double> dataInstance : dataInstances) {
+			cardinalityMap.put(dataInstance.get(featureIndex), "");
+		}
+		return cardinalityMap.size();
+	}
+
+
 }
