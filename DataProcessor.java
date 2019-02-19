@@ -121,9 +121,9 @@ public class DataProcessor {
 		String featureData = featureName+",";
 		//TODO: Percent missing
 		featureData += "?,";
-		//TODO: Cardinality
-		featureData += getCardinalityOfFeatureAtIndex(featureIndex);
+		featureData += getCardinalityOfFeatureAtIndex(featureIndex) + ",";
 		//TODO: Mode
+		featureData += getModeOfCategoricalFeatureAtIndex(featureIndex);
 		//TODO: Mode frequency
 		//TODO: Mode percent
 		//TODO: Second mode
@@ -159,9 +159,11 @@ public class DataProcessor {
 	private String getMeanAndStandardDeviationOfFeatureAtIndex(int featureIndex) {
 		double mean = 0;
 		double standardDeviation = 0;
+
 		for (int i = 0; i < dataInstances.size(); i++) {
 			mean += dataInstances.get(i).get(featureIndex);
 		}
+
 		mean /= this.dataInstances.size();
 
 		for (int i = 0; i < dataInstances.size(); i++) {
@@ -172,4 +174,30 @@ public class DataProcessor {
 
 		return mean + "," + standardDeviation;
 	}
+
+	private String getModeOfCategoricalFeatureAtIndex(int featureIndex) {
+		HashMap<Double, Integer> modeMap = new HashMap<Double, Integer>();
+		int maxOccurrences = 1;
+		double maxOccurred = -1;
+
+		for (int i = 0; i < dataInstances.size(); i++) {
+			double dataValue = dataInstances.get(i).get(featureIndex);
+			if (modeMap.get(dataValue) != null) {
+				int total = modeMap.get(dataValue);
+				total++;
+				modeMap.put(dataValue, total);
+
+				if (total > maxOccurrences) {
+					maxOccurrences = total;
+					maxOccurred = dataValue;
+				}
+			}
+			else {
+				modeMap.put(dataValue, 1);
+			}
+		}
+
+		return (maxOccurred == -1) ? "N/A" : getNameFromIndexForCategoricalFeature(getFeatureName(featureIndex), (int)maxOccurred);
+	}
+
 }
