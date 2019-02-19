@@ -60,8 +60,6 @@ public class DataProcessor {
 			}
 		}
 		this.dataInstances.add(processedDataInstance);
-		/*System.out.println(this.dataInstances);
-		System.out.println(this.categoricalFeatureOptions);*/
 	}
 
 	public void parseDataFromArffFile() throws Exception {
@@ -84,7 +82,7 @@ public class DataProcessor {
 					}
 				}
 				else {
-					this.addDataInstance(NULL);
+					this.addDataInstance(line);
 				}
 			}
 		}
