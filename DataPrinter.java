@@ -49,6 +49,7 @@ public class DataPrinter {
 		totalNumberOfInstances = numberOfInstances;
 	}
 
+	/** Prints stored data quality report data to outputFilename. */
 	public void printDataQualityReport(String outputFilename) throws Exception {
 		out = new PrintWriter(outputFilename);
 		DataPrinter dataPrinter = new DataPrinter();

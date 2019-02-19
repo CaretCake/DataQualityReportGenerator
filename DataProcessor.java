@@ -15,6 +15,8 @@ public class DataProcessor {
 		this.features.add(feature);
 	}
 
+	/* Adds a set of categorical feature options to categoricalFeatureOptions HashMap with feature
+	 * name as the key. */
 	private void addCategoricalFeatureOptions(String feature, String featureOptionsString) {
 		featureOptionsString = featureOptionsString.substring(1, featureOptionsString.length()-1);
 		ArrayList<String> featureOptions = new ArrayList(Arrays.asList(featureOptionsString.split(",")));
@@ -45,6 +47,11 @@ public class DataProcessor {
 		return  (this.categoricalFeatureOptions.get(getFeatureName(index)) == null) ? "numeric" : "categorical";
 	}
 
+	/* Returns the 0, 1st, 2nd, 3rd, 4th quartiles of a feature's data points.
+	 *
+	 * @param featureIndex the index of the feature you want to get quartiles for
+	 * @return a string in the format of "minimum, firstQuartile, median, thirdQuartile, maximum"
+	 */
 	private String getQuartilesOfFeatureAtIndex(int featureIndex) {
 		double[] dataPoints = new double[this.dataInstances.size()];
 		for (int i = 0; i < dataInstances.size(); i++) {
@@ -60,6 +67,11 @@ public class DataProcessor {
 		return minimum + "," + firstQuartile + "," + median + "," + thirdQuartile + "," + maximum;
 	}
 
+	/* Returns the mean and standard deviation of a feature's data points.
+	 *
+ 	 * @param featureIndex the index of the feature you want to get mean and standard deviation for
+ 	 * @return a string in the format of "mean, standardDeviation"
+ 	 */
 	private String getMeanAndStandardDeviationOfFeatureAtIndex(int featureIndex) {
 		double mean = 0;
 		double standardDeviation = 0;
@@ -79,6 +91,12 @@ public class DataProcessor {
 		return mean + "," + standardDeviation;
 	}
 
+	/* Returns the 0, 1st, 2nd, 3rd, 4th quartiles of a feature's data points.
+	 *
+	 * @param featureIndex the index of the feature you want to get first and second mode data for
+	 * @return a string in the format of "categorical option name, firstMode, firstModeOccurences,
+	 *     firstModePercentage, secondMode, secondModeOccurences, secondModePercentage"
+	 */
 	private String getModeDataOfCategoricalFeatureAtIndex(int featureIndex) {
 		HashMap<Double, Integer> modeMap = new HashMap<Double, Integer>();
 		int firstMaxOccurrences = 1;
@@ -118,6 +136,12 @@ public class DataProcessor {
 		return getNameFromIndexForCategoricalFeature(getFeatureName(featureIndex), (int)firstMode) + "," + modeMap.get(firstMode) + "," + (((double)modeMap.get(firstMode)/(double)this.dataInstances.size())*100) + "," + getNameFromIndexForCategoricalFeature(getFeatureName(featureIndex), (int)secondMode) + "," + modeMap.get(secondMode) + "," + (((double)modeMap.get(secondMode)/(double)this.dataInstances.size())*100);
 	}
 
+	/* Returns the various data calculations required for numeric data in data quality report.
+	 *
+	 * @param featureIndex the index of the feature you want to get numeric data calculations for
+	 * @return a string in the format of "cardinality, minimum, firstQuartile, median, thirdQuartile,
+	 *     maximum, mean, standardDeviation"
+	 */
 	private String processNumericFeatureData(int featureIndex) {
 		String featureName = getFeatureName(featureIndex);
 		String featureData = featureName+",";
@@ -128,6 +152,12 @@ public class DataProcessor {
 		return featureData;
 	}
 
+	/* Returns the various data calculations required for categorical data in data quality report.
+	 *
+	 * @param featureIndex the index of the feature you want to get categorical data calculations for
+	 * @return a string in the format of "cardinality, firstMode, firstModeFrequency,
+	 *     firstModePercentage, secondMode, secondModeFrequency, secondModePercentage"
+	 */
 	private String processCategoricalFeatureData(int featureIndex) {
 		String featureName = getFeatureName(featureIndex);
 		String featureData = featureName+",";
@@ -137,6 +167,11 @@ public class DataProcessor {
 		return featureData;
 	}
 
+	/* Adds a data instance to the dataInstances ArrayList and handles adding categorical options
+	 * if needed.
+	 *
+	 * @param dataInstance the comma separated string containing the data instance's values
+	 */
 	public void addDataInstance(String dataInstance) {
 		String[] data = dataInstance.split(",");
 		ArrayList<Double> processedDataInstance = new ArrayList<Double>();
@@ -153,6 +188,8 @@ public class DataProcessor {
 		this.dataInstances.add(processedDataInstance);
 	}
 
+	/* Parses data from .arff file at inputFilename, storing numeric/categorical features, categorical
+	 * feature options, and data instances accordingly. */
 	public void parseDataFromArffFile() throws Exception {
 		try {
 			Scanner in = new Scanner(new File(inputFilename), "UTF-8");
@@ -183,6 +220,8 @@ public class DataProcessor {
 		}
 	}
 
+	/* Runs through all numeric and categorical features and adds their data quality report
+	 * calculations to the dataPrinter. */
 	public void generateDataQualityReport() {
 		for (int i = 0; i < this.features.size(); i++) {
 			if (getFeatureType(i) == "numeric") {
