@@ -1,6 +1,6 @@
 # DataQualityReportGenerator
 
-Generate a csv data quality report from an ![.arff](https://www.cs.waikato.ac.nz/ml/weka/arff.html) file.
+Generate a csv data quality report from an [.arff](https://www.cs.waikato.ac.nz/ml/weka/arff.html "Attribute-Relation File Format (ARFF) Documentation") file.
 
 ## Description
 
