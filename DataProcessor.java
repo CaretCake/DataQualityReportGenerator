@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
-import java.io.*;
+import java.io.File;
 
 public class DataProcessor {
 	private String inputFilename;
@@ -104,7 +104,6 @@ public class DataProcessor {
 	private String processNumericFeatureData(int featureIndex) {
 		String featureName = getFeatureName(featureIndex);
 		String featureData = featureName+",";
-		featureData += "?,";
 		featureData += getCardinalityOfFeatureAtIndex(featureIndex) + ",";
 		featureData += getQuartilesOfFeatureAtIndex(featureIndex) + ",";
 		featureData += getMeanAndStandardDeviationOfFeatureAtIndex(featureIndex);
@@ -115,7 +114,6 @@ public class DataProcessor {
 	private String processCategoricalFeatureData(int featureIndex) {
 		String featureName = getFeatureName(featureIndex);
 		String featureData = featureName+",";
-		featureData += "?,";
 		featureData += getCardinalityOfFeatureAtIndex(featureIndex) + ",";
 		featureData += getModeDataOfCategoricalFeatureAtIndex(featureIndex);
 

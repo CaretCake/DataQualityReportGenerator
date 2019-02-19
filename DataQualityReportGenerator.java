@@ -1,8 +1,6 @@
 // Melissa Farrell
 // Run with command: java DataQualityReportGenerator "lakes.arff"
 
-import java.io.*;
-
 public class DataQualityReportGenerator {
 	public static void main(String[] args) throws Exception {
 
