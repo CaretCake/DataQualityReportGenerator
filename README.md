@@ -14,7 +14,7 @@ A simple Java program for use as a data quality report creator from .arff format
 
 ### Executing program
 
-* Run the program from a terminal with the following commands:
+* Compile and run the program from a terminal with the following commands:
 ```
 javac GenerateDataQualityReport.java
 java GenerateDataQualityReport "[FILENAME].arff"
