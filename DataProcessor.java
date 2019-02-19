@@ -84,7 +84,7 @@ public class DataProcessor {
 					}
 				}
 				else {
-					this.addDataInstance(line);
+					this.addDataInstance(NULL);
 				}
 			}
 		}
@@ -106,7 +106,6 @@ public class DataProcessor {
 	private String processNumericFeatureData(int featureIndex) {
 		String featureName = getFeatureName(featureIndex);
 		String featureData = featureName+",";
-		//TODO: Percent missing
 		featureData += "?,";
 		featureData += getCardinalityOfFeatureAtIndex(featureIndex) + ",";
 		featureData += getQuartilesOfFeatureAtIndex(featureIndex) + ",";
@@ -118,7 +117,6 @@ public class DataProcessor {
 	private String processCategoricalFeatureData(int featureIndex) {
 		String featureName = getFeatureName(featureIndex);
 		String featureData = featureName+",";
-		//TODO: Percent missing
 		featureData += "?,";
 		featureData += getCardinalityOfFeatureAtIndex(featureIndex) + ",";
 		featureData += getModeDataOfCategoricalFeatureAtIndex(featureIndex);
