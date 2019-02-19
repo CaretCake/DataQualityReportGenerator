@@ -99,9 +99,8 @@ public class DataProcessor {
 				dataPrinter.addCategoricalFeatureData(processCategoricalFeatureData(i));
 			}
 		}
-		// Process data here, which will store everything in arraylists in dataprinter
-		// then call print methods for all that will print headers, data, etc for each?
 
+		dataPrinter.setTotalNumberOfInstances(this.dataInstances.size());
 	}
 
 	private String processNumericFeatureData(int featureIndex) {

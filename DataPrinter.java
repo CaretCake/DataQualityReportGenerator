@@ -6,6 +6,7 @@ public class DataPrinter {
 	private String CATEGORICAL_HEADER = "Categorical feature,Percent missing,Cardinality,Mode,Mode frequency,Mode percent,Second mode,Second mode frequency,Second mode percent";
 	private ArrayList<String> numericFeatureData = new ArrayList<String>();
 	private ArrayList<String> categoricalFeatureData = new ArrayList<String>();
+	private int totalNumberOfInstances;
 	private PrintWriter out;
 
 	public void addNumericFeatureData(String commaSeparatedData) {
@@ -16,8 +17,12 @@ public class DataPrinter {
 		this.categoricalFeatureData.add(commaSeparatedData);
 	}
 
-	private void printTotalInstances (int numberOfInstances) {
-		out.println("Instances\n" + numberOfInstances + "\n");
+	public void setTotalNumberOfInstances(int numberOfInstances) {
+		totalNumberOfInstances = numberOfInstances;
+	}
+
+	private void printTotalInstances() {
+		out.println("Instances\n" + totalNumberOfInstances);
 	}
 
 	private void printNumericHeader() {
@@ -48,8 +53,8 @@ public class DataPrinter {
 		out = new PrintWriter(outputFilename);
 		DataPrinter dataPrinter = new DataPrinter();
 
-		//this.printTotalInstances(numberOfInstances);
-
+		this.printTotalInstances();
+		this.printBlankLine();
 		this.printNumericHeader();
 		this.printNumericFeatureData();
 		this.printBlankLine();
