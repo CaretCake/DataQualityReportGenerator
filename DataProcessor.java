@@ -122,13 +122,7 @@ public class DataProcessor {
 		//TODO: Percent missing
 		featureData += "?,";
 		featureData += getCardinalityOfFeatureAtIndex(featureIndex) + ",";
-		//TODO: Mode
-		featureData += getModeOfCategoricalFeatureAtIndex(featureIndex);
-		//TODO: Mode frequency
-		//TODO: Mode percent
-		//TODO: Second mode
-		//TODO: Second mode frequency
-		//TODO: Second mode percent
+		featureData += getModeDataOfCategoricalFeatureAtIndex(featureIndex);
 
 		return featureData;
 	}
@@ -175,10 +169,12 @@ public class DataProcessor {
 		return mean + "," + standardDeviation;
 	}
 
-	private String getModeOfCategoricalFeatureAtIndex(int featureIndex) {
+	private String getModeDataOfCategoricalFeatureAtIndex(int featureIndex) {
 		HashMap<Double, Integer> modeMap = new HashMap<Double, Integer>();
-		int maxOccurrences = 1;
-		double maxOccurred = -1;
+		int firstMaxOccurrences = 1;
+		double firstMode = -1;
+		int secondMaxOccurrences = 1;
+		double secondMode = -1;
 
 		for (int i = 0; i < dataInstances.size(); i++) {
 			double dataValue = dataInstances.get(i).get(featureIndex);
@@ -187,9 +183,17 @@ public class DataProcessor {
 				total++;
 				modeMap.put(dataValue, total);
 
-				if (total > maxOccurrences) {
-					maxOccurrences = total;
-					maxOccurred = dataValue;
+				if (total > firstMaxOccurrences) {
+					if (dataValue != firstMode) {
+						secondMaxOccurrences = firstMaxOccurrences;
+						secondMode = firstMode;
+					}
+					firstMaxOccurrences = total;
+					firstMode = dataValue;
+				}
+				else if (total > secondMaxOccurrences && dataValue != firstMode) {
+					secondMaxOccurrences = total;
+					secondMode = dataValue;
 				}
 			}
 			else {
@@ -197,7 +201,14 @@ public class DataProcessor {
 			}
 		}
 
-		return (maxOccurred == -1) ? "N/A" : getNameFromIndexForCategoricalFeature(getFeatureName(featureIndex), (int)maxOccurred);
+		if (firstMaxOccurrences == 1) {
+			return "N/A,N/A,N/A,N/A,N/A,N/A";
+		}
+		else if (secondMaxOccurrences == 1) {
+			return getNameFromIndexForCategoricalFeature(getFeatureName(featureIndex), (int)firstMode) + "," + modeMap.get(firstMode) + "," + (((double)modeMap.get(firstMode)/(double)this.dataInstances.size())*100) + "N/A,N/A,N/A";
+		}
+
+		return getNameFromIndexForCategoricalFeature(getFeatureName(featureIndex), (int)firstMode) + "," + modeMap.get(firstMode) + "," + (((double)modeMap.get(firstMode)/(double)this.dataInstances.size())*100) + "," + getNameFromIndexForCategoricalFeature(getFeatureName(featureIndex), (int)secondMode) + "," + modeMap.get(secondMode) + "," + (((double)modeMap.get(secondMode)/(double)this.dataInstances.size())*100);
 	}
 
 }
