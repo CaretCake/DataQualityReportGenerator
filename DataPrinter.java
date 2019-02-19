@@ -2,24 +2,12 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class DataPrinter {
-	private String NUMERIC_HEADER = "Numeric feature,Cardinality,Minimum,1st Quartile,Median,3rd Quartile,Maximium,Mean,Standard Deviation";
-	private String CATEGORICAL_HEADER = "Categorical feature,Cardinality,Mode,Mode frequency,Mode percent,Second mode,Second mode frequency,Second mode percent";
+	static final String NUMERIC_HEADER = "Numeric feature,Cardinality,Minimum,1st Quartile,Median,3rd Quartile,Maximium,Mean,Standard Deviation";
+	static final String CATEGORICAL_HEADER = "Categorical feature,Cardinality,Mode,Mode frequency,Mode percent,Second mode,Second mode frequency,Second mode percent";
 	private ArrayList<String> numericFeatureData = new ArrayList<String>();
 	private ArrayList<String> categoricalFeatureData = new ArrayList<String>();
 	private int totalNumberOfInstances;
 	private PrintWriter out;
-
-	public void addNumericFeatureData(String commaSeparatedData) {
-		this.numericFeatureData.add(commaSeparatedData);
-	}
-
-	public void addCategoricalFeatureData(String commaSeparatedData) {
-		this.categoricalFeatureData.add(commaSeparatedData);
-	}
-
-	public void setTotalNumberOfInstances(int numberOfInstances) {
-		totalNumberOfInstances = numberOfInstances;
-	}
 
 	private void printTotalInstances() {
 		out.println("Instances\n" + totalNumberOfInstances);
@@ -47,6 +35,18 @@ public class DataPrinter {
 
 	private void printBlankLine() {
 		out.println();
+	}
+
+	public void addNumericFeatureData(String commaSeparatedData) {
+		this.numericFeatureData.add(commaSeparatedData);
+	}
+
+	public void addCategoricalFeatureData(String commaSeparatedData) {
+		this.categoricalFeatureData.add(commaSeparatedData);
+	}
+
+	public void setTotalNumberOfInstances(int numberOfInstances) {
+		totalNumberOfInstances = numberOfInstances;
 	}
 
 	public void printDataQualityReport(String outputFilename) throws Exception {
