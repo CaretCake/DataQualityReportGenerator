@@ -1,5 +1,5 @@
 // Melissa Farrell
-// Run with command: java GenerateDataQualityReport "lakes.arff"
+// Run with command: java GenerateDataQualityReport "filename.arff"
 
 public class DataQualityReportGenerator {
 	public static void main(String[] args) throws Exception {
